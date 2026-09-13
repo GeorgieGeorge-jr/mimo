@@ -14,44 +14,39 @@ js/onboarding.js     Step navigation, branching logic, Supabase auth + storage
 assets/              Logo (mimo-mark.png, mimo-lockup-full.png) and favicons
 ```
 
-## Connecting Supabase (not wired up yet)
+## Supabase — now connected
 
-`js/onboarding.js` has a `CONFIG` object at the very top:
+`js/onboarding.js` has the real Mimo Supabase project wired in:
 
-```js
-var CONFIG = {
-  SUPABASE_URL: "",       // e.g. "https://xxxxx.supabase.co"
-  SUPABASE_ANON_KEY: "",  // the project's publishable/anon key
-  LAUNCH_DATE_ISO: "2026-12-01T00:00:00Z" // the real launch date, once set
-};
+- **Step 2 ("Create account")** calls real Supabase Auth (`supabase.auth.signUp`).
+  A matching `profiles` row is created automatically (via a database trigger)
+  for every signup. Errors (weak password, duplicate email, etc.) show inline.
+- **The "Finish" button** inserts the full set of collected answers into a
+  `responses` table, tagged `source: "site"`.
+- Row Level Security is on: anyone can submit a response (that's the point of
+  a public form), but nobody can read someone else's response through the
+  public API — only via the Supabase dashboard.
+
+## Formasty → Supabase sync
+
+Formasty's webhook now points at a deployed Supabase Edge Function
+(`formasty-webhook`), which verifies the request came from Formasty and
+inserts each submission into the same `responses` table, tagged
+`source: "formasty"`. Both forms' answers are queryable side by side now —
+e.g. in the Supabase SQL editor:
+
+```sql
+select source, count(*) from responses group by source;
 ```
 
-Fill in `SUPABASE_URL` and `SUPABASE_ANON_KEY` once the Mimo Supabase project
-exists, and two things switch on automatically:
-
-1. **Step 2 ("Create account")** calls real Supabase Auth (`supabase.auth.signUp`)
-   instead of just moving to the next step. Errors (weak password, duplicate
-   email, etc.) show inline.
-2. **The "Finish" button** inserts the full set of collected answers into a
-   `responses` table (as a JSON blob plus a `source: "site"` marker, so they
-   can be told apart from Formasty submissions once that's synced too).
-
-Until those two values are filled in, the flow still works end-to-end for
-review purposes — it just logs what would have been sent to the browser
-console instead of a database, with a warning explaining why.
-
-**This part is currently blocked** on a decision about where the data lives —
-your Supabase account is at its 2-free-project limit, so a dedicated "Mimo"
-project couldn't be created yet. Once that's resolved, the table schema and
-the exact `responses` insert shape can be finalized to match.
-
-## Syncing Formasty responses into the same place
-
-Formasty supports a webhook that fires on every submission. The plan (once
-the Supabase project exists) is a small Edge Function that receives that
-webhook and inserts into the same `responses` table with `source: "formasty"`
-— so both forms' answers end up queryable side by side. Not built yet, same
-blocker as above.
+**One caveat worth knowing:** Formasty doesn't publicly document the exact
+header/format it uses to sign webhook payloads, so the function verifies
+against the most common industry convention (HMAC-SHA256 in an
+`X-Formasty-Signature: sha256=<hex>` header). If Formasty actually uses a
+different header name or format, real deliveries will get rejected with a
+401 — check Formasty's webhook delivery logs after a real test submission.
+If that happens, it's a one-line fix in the edge function (it lives on
+Supabase, not in this static site zip — ask me and I'll patch it).
 
 ## The onboarding questions
 
@@ -59,7 +54,7 @@ Steps 3–8 reuse the actual Mimo pet-owner validation survey questions (the
 same ones in the Formasty version), so responses are structurally comparable:
 
 1. Welcome
-2. Create account (real Supabase Auth, once configured)
+2. Create account (real Supabase Auth)
 3. Have you ever owned a pet? *(yes / planning to / no)*
 4. Tell us about your pet — state, city, pet type, how long you've owned one
 5. Current habits — emergency frequency, how you find products, used an app before

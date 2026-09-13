@@ -7,8 +7,8 @@
    * console instead of writing to a database (see README.md).
    * ------------------------------------------------------------------- */
   var CONFIG = {
-    SUPABASE_URL: "",       // e.g. "https://xxxxx.supabase.co"
-    SUPABASE_ANON_KEY: "",  // the project's publishable/anon key — never the service_role key
+    SUPABASE_URL: "https://dkrxhlrexdnhsghzlanx.supabase.co",
+    SUPABASE_ANON_KEY: "sb_publishable_SRwm1H37KqNV0QErSTuhBg_glmKzXGA",
     LAUNCH_DATE_ISO: "2026-12-01T00:00:00Z" // placeholder — change to the real launch date
   };
 
@@ -304,8 +304,10 @@
       source: "site",
       user_id: authUser ? authUser.id : null,
       email: answers.email || null,
-      answers: answers,
-      created_at: new Date().toISOString()
+      phone: answers.phone || answers.phoneFromAccount || null,
+      state: answers.state || null,
+      city: answers.city || null,
+      answers: answers
     };
 
     if (supabase) {
