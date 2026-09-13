@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join Mimo</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="ob-body">
+
+<div class="ob-shell">
+  <div class="ob-topbar">
+    <button class="ob-back" id="obBack" aria-label="Back" type="button">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="#163A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <a class="ob-logo" href="index.html">
+      <img src="assets/mimo-mark.png" alt="" width="24" height="24">
+      Mimo
+    </a>
+    <span class="ob-step-count" id="obStepCount">1/8</span>
+  </div>
+  <div class="ob-progress"><div class="ob-progress-bar" id="obProgressBar"></div></div>
+
+  <div class="ob-content" id="obContent">
+
+    <!-- 1/7 — Welcome -->
+    <div class="ob-panel active" data-step="welcome">
+      <div style="margin:auto; text-align:center;">
+        <div class="icon-badge" style="margin:0 auto 22px;">
+          <img src="assets/mimo-mark.png" alt="" width="36" height="36" style="width:36px;height:36px;object-fit:contain;">
+        </div>
+        <h2>Welcome to Mimo</h2>
+        <p class="ob-sub">Better care starts with knowing your pet. This takes about 3 minutes and helps shape what we build.</p>
+      </div>
+      <div class="ob-footer">
+        <button class="btn btn-primary btn-block btn-lg" data-next>Get Started →</button>
+      </div>
+    </div>
+
+    <!-- 2/7 — Create account (visual, non-functional demo) -->
+    <div class="ob-panel" data-step="account">
+      <h2>Create your account</h2>
+      <p class="ob-sub">Already have an account? <a href="#" style="color:var(--forest); font-weight:600; text-decoration:underline;">Log in</a></p>
+
+      <label class="ob-field-label" for="fEmail">Email address</label>
+      <input class="ob-input" id="fEmail" type="email" placeholder="you@example.com">
+
+      <label class="ob-field-label" for="fPass">Password</label>
+      <input class="ob-input" id="fPass" type="password" placeholder="Create a strong password">
+
+      <label class="ob-field-label" for="fPhoneAcct">Phone number</label>
+      <div class="ob-input-row">
+        <select class="ob-input ob-select" id="fPhoneCode" aria-label="Country code">
+          <option>+234</option>
+          <option>+1</option>
+          <option>+44</option>
+        </select>
+        <input class="ob-input" id="fPhoneAcct" type="tel" placeholder="Phone number">
+      </div>
+
+      <p class="ob-error" id="acctError"></p>
+
+      <div class="ob-footer">
+        <button class="btn btn-primary btn-block btn-lg" id="btnCreateAccount">Create account</button>
+        <div class="ob-divider">or</div>
+        <div class="ob-social-row">
+          <button class="btn btn-outline btn-block" type="button">Continue with Google</button>
+          <button class="btn btn-outline btn-block" type="button">Continue with Apple</button>
+        </div>
+        <p class="ob-terms">By continuing, you agree to our <a href="#">Terms</a> &amp; <a href="#">Privacy Policy</a>.</p>
+      </div>
+    </div>
+
+    <!-- 3/7 — Have you ever owned a pet? -->
+    <div class="ob-panel" data-step="own-pet">
+      <h2>What best describes you?</h2>
+      <p class="ob-sub">This helps us personalize your experience.</p>
+      <div class="ob-options" role="radiogroup" aria-label="Pet ownership">
+        <label class="ob-option">
+          <input type="radio" name="ownPet" value="yes">
+          <span><span class="ob-opt-title">Yes, I own one now</span><span class="ob-opt-sub">or have owned one in the past</span></span>
+        </label>
+        <label class="ob-option">
+          <input type="radio" name="ownPet" value="planning">
+          <span><span class="ob-opt-title">Not yet, but planning to</span><span class="ob-opt-sub">I'm thinking about getting a pet</span></span>
+        </label>
+        <label class="ob-option">
+          <input type="radio" name="ownPet" value="no">
+          <span><span class="ob-opt-title">No</span><span class="ob-opt-sub">I don't have or want a pet right now</span></span>
+        </label>
+      </div>
+      <div class="ob-footer">
+        <button class="btn btn-primary btn-block btn-lg" data-next disabled id="btnOwnPet">Continue</button>
+      </div>
+    </div>
+
+    <!-- 4/7 — Tell us about your pet -->
+    <div class="ob-panel" data-step="profile">
+      <h2>Tell us about your pet</h2>
+      <p class="ob-sub">This helps us give you the right recommendations.</p>
+
+      <label class="ob-field-label">What state do you live in?</label>
+      <input class="ob-input" id="fState" type="text" placeholder="e.g. FCT (Abuja), Lagos, Rivers">
+
+      <label class="ob-field-label">What city or town?</label>
+      <input class="ob-input" id="fCity" type="text" placeholder="e.g. Abuja, Ikeja, Port Harcourt">
+
+      <div id="petOwnerOnly">
+        <label class="ob-field-label">What kind of pet do you have?</label>
+        <div class="ob-grid-2" id="petTypes" role="group" aria-label="Pet types">
+          <button type="button" class="ob-tile" data-value="dog"><svg viewBox="0 0 24 24" fill="none"><path d="M4 10c0-3 2-5 4-5s3 1 4 1 2-1 4-1 4 2 4 5-3 4-3 6v3a2 2 0 01-2 2h-6a2 2 0 01-2-2v-3c0-2-3-3-3-6z" stroke-width="1.6"/></svg>Dog</button>
+          <button type="button" class="ob-tile" data-value="cat"><svg viewBox="0 0 24 24" fill="none"><path d="M5 4l2 4h10l2-4-3 5v9a2 2 0 01-2 2h-4a2 2 0 01-2-2v-9L5 4z" stroke-width="1.6"/></svg>Cat</button>
+          <button type="button" class="ob-tile" data-value="bird"><svg viewBox="0 0 24 24" fill="none"><path d="M4 14c4 4 12 4 16-2-2 0-3-1-3-3 2 0 3-1 3-3-3 0-5 1-6 3-3-2-7-1-8 2 2 0 3 1 3 3-2 1-4 1-5 0z" stroke-width="1.5"/></svg>Bird</button>
+          <button type="button" class="ob-tile" data-value="other">Other</button>
+        </div>
+
+        <label class="ob-field-label">How long have you owned a pet?</label>
+        <div class="ob-options" role="radiogroup" aria-label="Ownership duration">
+          <label class="ob-option"><input type="radio" name="petDuration" value="new"><span class="ob-opt-title">New owner</span></label>
+          <label class="ob-option"><input type="radio" name="petDuration" value="1-3"><span class="ob-opt-title">1–3 years</span></label>
+          <label class="ob-option"><input type="radio" name="petDuration" value="3plus"><span class="ob-opt-title">3+ years</span></label>
+        </div>
+      </div>
+
+      <div class="ob-footer">
+        <button class="btn btn-primary btn-block btn-lg" data-next disabled id="btnProfile">Continue</button>
+      </div>
+    </div>
+
+    <!-- 5/7 — Current habits -->
+    <div class="ob-panel" data-step="habits">
+      <h2>Your current habits</h2>
+      <p class="ob-sub">A little about how you manage pet care today.</p>
+
+      <div id="freqOnly" class="ob-block">
+        <span class="ob-block-label">In the past year, how many pet emergencies have you faced?</span>
+        <div class="ob-pill-row" id="emFreq">
+          <button type="button" class="ob-pill" data-value="0">0</button>
+          <button type="button" class="ob-pill" data-value="1-2">1–2</button>
+          <button type="button" class="ob-pill" data-value="3-5">3–5</button>
+          <button type="button" class="ob-pill" data-value="6plus">6+</button>
+        </div>
+      </div>
+
+      <div class="ob-block">
+        <span class="ob-block-label">How do you currently find pet products or medication?</span>
+        <div class="ob-check-list">
+          <label class="ob-check"><input type="checkbox" value="pharmacy"><span>Pharmacy</span></label>
+          <label class="ob-check"><input type="checkbox" value="vet"><span>Vet clinic</span></label>
+          <label class="ob-check"><input type="checkbox" value="online"><span>Online store</span></label>
+          <label class="ob-check"><input type="checkbox" value="petstore"><span>Physical pet store</span></label>
+          <label class="ob-check"><input type="checkbox" value="ask"><span>Ask other pet owners</span></label>
+        </div>
+      </div>
+
+      <div class="ob-block">
+        <span class="ob-block-label">Have you used a pet-related app before?</span>
+        <div class="ob-pill-row" id="usedApp">
+          <button type="button" class="ob-pill" data-value="yes">Yes</button>
+          <button type="button" class="ob-pill" data-value="no">No</button>
+        </div>
+        <div class="ob-conditional" id="usedAppWhichWrap" style="margin-top:12px;">
+          <input class="ob-input" id="fUsedAppWhich" type="text" placeholder="Which one(s)? (optional)">
+        </div>
+      </div>
+
+      <div class="ob-footer">
+        <button class="btn btn-primary btn-block btn-lg" data-next>Continue</button>
+      </div>
+    </div>
+
+    <!-- 6/8 — Emergency experience -->
+    <div class="ob-panel" data-step="emergency">
+      <h2>A few quick questions</h2>
+      <p class="ob-sub">Your answers help us improve and serve you better.</p>
+
+      <div id="emergOnly" class="ob-block">
+        <span class="ob-block-label">Have you ever faced a pet emergency you didn't know how to handle?</span>
+        <div class="ob-pill-row" id="everEmergency">
+          <button type="button" class="ob-pill" data-value="yes">Yes</button>
+          <button type="button" class="ob-pill" data-value="no">No</button>
+        </div>
+
+        <div class="ob-conditional" id="emergencyDetail" style="margin-top:18px;">
+          <span class="ob-block-label">What did you do in that moment?</span>
+          <div class="ob-check-list">
+            <label class="ob-check"><input type="checkbox" value="friend"><span>Called a friend</span></label>
+            <label class="ob-check"><input type="checkbox" value="search"><span>Searched online</span></label>
+            <label class="ob-check"><input type="checkbox" value="drove"><span>Drove around looking for a vet</span></label>
+            <label class="ob-check"><input type="checkbox" value="nothing"><span>Did nothing</span></label>
+          </div>
+          <label class="ob-field-label">How long did it take to find help?</label>
+          <select class="ob-input" id="fTimeToHelp">
+            <option value="">Select one</option>
+            <option value="under30">Less than 30 minutes</option>
+            <option value="30-60">30 minutes – 1 hour</option>
+            <option value="1-3h">1–3 hours</option>
+            <option value="3plus">More than 3 hours</option>
+            <option value="never">I never found help</option>
+          </select>
+          <span class="ob-block-label" style="margin-top:16px; display:block;">Was it outside normal business hours?</span>
+          <div class="ob-pill-row" id="afterHours">
+            <button type="button" class="ob-pill" data-value="yes">Yes</button>
+            <button type="button" class="ob-pill" data-value="no">No</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ob-block">
+        <span class="ob-block-label">Do you know a vet or pet store near you that you trust?</span>
+        <div class="ob-pill-row" id="trustedVet">
+          <button type="button" class="ob-pill" data-value="yes">Yes</button>
+          <button type="button" class="ob-pill" data-value="no">No</button>
+        </div>
+      </div>
+
+      <div class="ob-footer">
+        <button class="btn btn-primary btn-block btn-lg" data-next>Continue</button>
+      </div>
+    </div>
+
+    <!-- 7/8 — Value & pricing -->
+    <div class="ob-panel" data-step="value">
+      <h2>Almost there</h2>
+      <p class="ob-sub">A couple of questions about what would actually make you use Mimo.</p>
+
+      <div class="ob-block">
+        <span class="ob-block-label">Would you use an app with instant emergency guidance + nearby open vets?</span>
+        <div class="ob-pill-row" id="useApp">
+          <button type="button" class="ob-pill" data-value="yes">Yes</button>
+          <button type="button" class="ob-pill" data-value="maybe">Maybe</button>
+          <button type="button" class="ob-pill" data-value="no">No</button>
+        </div>
+      </div>
+
+      <div class="ob-block">
+        <span class="ob-block-label">Would you buy pet products or medication with same-day delivery?</span>
+        <div class="ob-pill-row" id="buyDelivery">
+          <button type="button" class="ob-pill" data-value="yes">Yes</button>
+          <button type="button" class="ob-pill" data-value="maybe">Maybe</button>
+          <button type="button" class="ob-pill" data-value="no">No</button>
+        </div>
+      </div>
+
+      <div class="ob-block">
+        <span class="ob-block-label">Would you pay for faster, priority access to emergency guidance or a vet?</span>
+        <div class="ob-pill-row" id="payPriority">
+          <button type="button" class="ob-pill" data-value="yes">Yes</button>
+          <button type="button" class="ob-pill" data-value="depends">Depends</button>
+          <button type="button" class="ob-pill" data-value="no">No</button>
+        </div>
+        <input class="ob-input" id="fFairPrice" style="margin-top:12px;" type="text" placeholder="What would feel like a fair price? (optional)">
+      </div>
+
+      <div class="ob-block">
+        <span class="ob-block-label">What's the one feature that would make you trust an app like this?</span>
+        <textarea class="ob-input ob-textarea" id="fTrustFeature" placeholder="Type your answer..."></textarea>
+      </div>
+
+      <div class="ob-footer">
+        <button class="btn btn-primary btn-block btn-lg" data-next>Continue</button>
+      </div>
+    </div>
+
+    <!-- 7/7 — One last question -->
+    <div class="ob-panel" data-step="community">
+      <h2>One last question</h2>
+      <p class="ob-sub">Would you like to join our pet owner community?</p>
+
+      <div class="ob-pill-row" id="joinCommunity">
+        <button type="button" class="ob-pill" data-value="yes">Yes, keep me posted</button>
+        <button type="button" class="ob-pill" data-value="no">No thanks</button>
+      </div>
+
+      <div class="ob-conditional" id="phoneWrap" style="margin-top:16px;">
+        <label class="ob-field-label">Great! What's your phone number?</label>
+        <input class="ob-input" id="fPhone" type="tel" placeholder="e.g. +234 803 000 0000">
+        <p class="ob-hint" style="text-align:left;">If Nigeria doesn't appear in your keyboard's country list, just type your number starting with +234.</p>
+      </div>
+
+      <label class="ob-field-label">Anything else you'd like to share?</label>
+      <textarea class="ob-input ob-textarea" id="fAnythingElse" placeholder="Your thoughts help us a lot..."></textarea>
+
+      <div class="ob-footer">
+        <button class="btn btn-primary btn-block btn-lg" id="btnFinish">Finish</button>
+      </div>
+    </div>
+
+    <!-- Final — launch countdown -->
+    <div class="ob-panel ob-final" data-step="final" data-nocounter>
+      <img class="ob-final-logo" src="assets/mimo-lockup-full.png" alt="Mimo — Healthier Pets. Happier Lives.">
+
+      <h2>You're on the list.</h2>
+      <p class="ob-final-lede">Thanks for helping us build a better way to care for pets. Mimo is launching soon —</p>
+
+      <div class="ob-countdown" id="obCountdown" role="timer" aria-label="Time remaining until launch">
+        <div class="ob-countdown-unit"><span id="cdDays">00</span><small>Days</small></div>
+        <div class="ob-countdown-unit"><span id="cdHours">00</span><small>Hours</small></div>
+        <div class="ob-countdown-unit"><span id="cdMins">00</span><small>Min</small></div>
+        <div class="ob-countdown-unit"><span id="cdSecs">00</span><small>Sec</small></div>
+      </div>
+
+      <p class="ob-final-sub" id="obFinalNotifyNote">We'll notify you the moment we launch.</p>
+
+      <div class="ob-footer" style="width:100%;">
+        <button class="btn btn-primary btn-block btn-lg" id="btnShare">Share with a fellow pet owner</button>
+        <a class="ob-skip" href="index.html">Back to home</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/onboarding.js"></script>
+</body>
+</html>
